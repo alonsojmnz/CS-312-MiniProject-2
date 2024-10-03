@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Info</title>
+    <style>
+      body {
+          background-color: aquamarine;
+          text-align:center;
+      }
+      .box {
+        background-color: #EEEEEE;
+        border-radius: 25px;
+        display: inline-block;
+        padding: 15px 15px;
+        text-align: center;
+      }
+
+    </style>
+  </head>
+  <body>
+    <main>
+        <h1>Weather Information for <%= location %></h1>
+        <div class="box">
+          <p>Temperature for your location: <%= temp %>°F</p>
+          <p>Condition for your location: <%= weather %></p>
+        </div>
+        <br><br>
+        <a href="/">Go back to Home</a>
+    </main>
+  </body>
+</html>

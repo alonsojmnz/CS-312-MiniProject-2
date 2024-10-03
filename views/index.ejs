@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            background-color: aquamarine;
+            text-align:center;
+        }
+        button {
+            padding: 10px;
+            border-radius: 25px;
+        }
+    </style>
+  </head>
+  <body>
+    <main>
+        <h1>Welcome to the weather tracker application</h1>
+
+        <button id="location">Click here to share your location!</button>
+
+    </main>
+
+    <script>
+        // get the button element
+        // into a variable
+        // named button
+        const button = document.getElementById("location");
+
+        // add an event listener
+        // to button
+        button.addEventListener("click", () => {
+            // if the browser
+            // has geolocation
+            if (navigator.geolocation) {
+                // get the geolocation
+                // of the user
+                // through built in api
+                navigator.geolocation.getCurrentPosition(position=>{
+                    // and strip lat and long from
+                    // the geolocaiton data
+                    // IMPORTANT!
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+
+                    // when we have all the information
+                    // start a fetch process
+                    // to fetch resource from a server
+                    fetch('/weather', {
+                        // specify the method
+                        // being post
+                        method: 'POST',
+                        // set headers that indicate
+                        // a JSON req body
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        // turn lat and long
+                        // into a JSON string 
+                        body: JSON.stringify({latitude,longitude})
+                    })
+                    // once server responds from fetch req
+                    // handle response
+                    .then(response=>{
+                        // redirect user to url sent back
+                        // by user
+                        window.location.href = response.url;
+                    })
+                    // if fetch request error, 
+                    // report the error!
+                    // catch the error and log it to console
+                    .catch(error =>{
+                        // 
+                        console.error('Error sending location:',error);
+                    });
+                });
+                // ELSE IF THE BROWSER DOES NOT HAVE
+                // GEOLOCATION
+                // display error!
+            } else {
+                //
+                alert('ERROR! Geolocation not available.');
+            }
+        });
+    </script>
+  </body>
+</html>
